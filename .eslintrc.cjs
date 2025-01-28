@@ -31,6 +31,6 @@ module.exports = {
     "public",
     ".eslintrc.cjs",
     "vite.config.ts",
-    "babel.config.json"
+    "babel.config.js"
   ]
 };
