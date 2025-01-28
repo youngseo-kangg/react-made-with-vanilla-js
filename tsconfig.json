@@ -12,6 +12,8 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
+    "jsx": "preserve", // JSX 코드 변환 방식 설정
+    "noImplicitAny": false, // any 허용
 
     /* Linting */
     "strict": true,
