@@ -1,3 +1,5 @@
+require("@rushstack/eslint-patch/modern-module-resolution");
+
 module.exports = {
   plugins: ["no-relative-import-paths", "jsx-a11y"],
   extends: ["@rushstack/eslint-config/profile/web-app"],
@@ -29,6 +31,6 @@ module.exports = {
     "public",
     ".eslintrc.cjs",
     "vite.config.ts",
-    "babel.config.js"
+    "babel.config.json"
   ]
 };

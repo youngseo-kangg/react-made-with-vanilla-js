@@ -1,4 +1,5 @@
 export default {
   presets: ["@babel/preset-typescript", "@babel/preset-env"],
-  plugins: ["@babel/plugin-transform-react-jsx"]
+  plugins: ["@babel/plugin-transform-react-jsx"],
+  comments: false
 };
