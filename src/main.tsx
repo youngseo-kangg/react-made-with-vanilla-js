@@ -8,6 +8,7 @@ import babelLogo from "/images/babel.svg";
 
 // componnt
 import App from "./App";
+import React from "./react";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
@@ -24,4 +25,4 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   </div>
 `;
 
-console.log(App);
+console.log(<App />);
