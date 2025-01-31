@@ -1,15 +1,27 @@
 import React from "./react";
 
+import List from "./pizza/list";
+
 const App = () => {
   return (
-    <main>
-      this is the App
-      <ul>
-        <li>list item 1</li>
-        <li>list item 2</li>
-        <li>list item 3</li>
-      </ul>
-    </main>
+    <div>
+      <header>
+        <h2>current pizza list</h2>
+        <div>
+          what about <p>this</p>?
+        </div>
+      </header>
+      <main>
+        <ul>
+          <List />
+        </ul>
+      </main>
+      <footer>
+        <a target="_blank" href="https://github.com/youngseo-kangg/react-made-with-vanilla-js">
+          youngseo kangg's github
+        </a>
+      </footer>
+    </div>
   );
 };
 

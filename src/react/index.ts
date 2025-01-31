@@ -32,7 +32,7 @@ interface IReactNode {
  * 요소의 자식(children) 타입을 정의합니다.
  * 문자열 배열(텍스트 내용) 또는 `IReactNode` 배열이 될 수 있습니다.
  */
-type ChildrenType = string[] | IReactNode[];
+type ChildrenType = (string | IReactNode)[];
 
 interface IReact {
   /**
@@ -53,7 +53,11 @@ const React: IReact = {
   createElement: (type, props: ElementPropsType, ...children: ChildrenType) => {
     return typeof type === "function"
       ? { name: type.name, props, children: type({ ...props, children }) }
-      : { name: type, props, children };
+      : {
+          name: type,
+          props,
+          children: children.filter((child) => !!child)
+        };
   }
 };
 

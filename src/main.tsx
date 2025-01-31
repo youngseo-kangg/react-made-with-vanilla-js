@@ -25,4 +25,4 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   </div>
 `;
 
-console.log(<App />);
+console.log("this is the <App /> ----> ", JSON.stringify(<App />, null, 2));
