@@ -1,6 +1,4 @@
-import React from "./react";
-
-import List from "./pizza/list";
+import List from "./component/pizza/list";
 
 const App = () => {
   return (

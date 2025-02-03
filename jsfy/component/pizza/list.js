@@ -5,7 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _item = _interopRequireDefault(require("./item"));
-var _react = _interopRequireDefault(require("../react"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var PIZZA_LIST = [{
   name: "cheese",
@@ -31,8 +30,10 @@ var PIZZA_LIST = [{
   isVegetarian: true
 }];
 var List = function List() {
-  return _react["default"].createElement(_react["default"].Fragment, null, PIZZA_LIST.map(function (pizzaItemProps) {
-    return _react["default"].createElement(_item["default"], pizzaItemProps);
-  }));
+  return <>
+      {PIZZA_LIST.map(function (pizzaItemProps) {
+      return <_item.default {...pizzaItemProps} />;
+    })}
+    </>;
 };
 var _default = exports["default"] = List;

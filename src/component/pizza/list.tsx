@@ -1,5 +1,4 @@
 import Item from "./item";
-import React from "../react";
 
 const PIZZA_LIST: IPizza[] = [
   {
