@@ -1,3 +1,5 @@
+import { React } from "src/const/react";
+
 /**
  * 가상 DOM 요소를 생성하는 함수입니다.
  */
@@ -21,6 +23,10 @@ const createElement: ICreateElement = (
    */
   ...children: ChildrenType
 ) => {
+  if (type === React.Fragment) {
+    return { name: React.Fragment, props, children: children.flat() };
+  }
+
   return typeof type === "function"
     ? { name: type.name, props, children: type({ ...props, children }) }
     : {
@@ -30,4 +36,4 @@ const createElement: ICreateElement = (
       };
 };
 
-export { createElement };
+export { createElement, React };

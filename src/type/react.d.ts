@@ -8,7 +8,10 @@ type ElementInProgress = void;
  * 유효한 요소 타입을 정의합니다.
  * 함수형 컴포넌트(`ElementInProgress`를 반환하는 함수) 또는 문자열(HTML 태그 이름)이 될 수 있습니다.
  */
-type ElementType = ((props: ElementPropsType) => ElementInProgress) | keyof HTMLElementTagNameMap;
+type ElementType =
+  | ((props: ElementPropsType) => ElementInProgress)
+  | keyof HTMLElementTagNameMap
+  | typeof Fragment;
 
 /**
  * 요소의 속성(프로퍼티)을 나타냅니다.
@@ -21,7 +24,7 @@ type ElementPropsType = Record<string, unknown> | null;
  */
 interface IReactNode {
   /** 요소의 태그명 또는 컴포넌트 이름 */
-  name: keyof HTMLElementTagNameMap | string;
+  name: keyof HTMLElementTagNameMap | string | ((props: ElementPropsType) => IReactNode);
   /** 요소에 전달된 속성(프로퍼티) ... className, id, target, ... */
   props: ElementPropsType;
   /** 요소의 자식 요소들 (문자열 배열 또는 `IReactNode` 배열) */

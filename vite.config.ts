@@ -20,7 +20,7 @@ export default defineConfig(() => ({
     jsxDev: false, // "@react/jsx-dev-runtime" 미사용 관련 false 처리
     jsxFactory: "createElement",
     jsxImportSource: "@react",
-    jsxInject: `import { createElement } from "@react/jsx-runtime"`
+    jsxInject: `import { createElement, React } from "@react/jsx-runtime"`
   },
   server: { port: 3000 }
 }));
