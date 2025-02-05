@@ -12,6 +12,15 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
+    "noImplicitAny": false, // any 허용
+    "jsx": "react-jsx", // JSX 코드 변환 방식 설정
+    "jsxImportSource": "@react",
+
+    // path '@'' 설정 관련
+    "baseUrl": ".",
+    "paths": {
+      "@react/*": ["./src/lib/react/*"]
+    },
 
     /* Linting */
     "strict": true,
