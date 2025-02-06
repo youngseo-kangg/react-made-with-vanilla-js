@@ -24,7 +24,11 @@ const createElement: ICreateElement = (
   ...children: ChildrenType
 ) => {
   if (type === React.Fragment) {
-    return { name: React.Fragment, props, children: children.flat() };
+    return {
+      name: React.Fragment,
+      props,
+      children: children.filter((el) => (typeof el === "number" ? true : !!el)).flat()
+    };
   }
 
   return typeof type === "function"
@@ -32,7 +36,7 @@ const createElement: ICreateElement = (
     : {
         name: type,
         props,
-        children: children.flat()
+        children: children.filter((el) => (typeof el === "number" ? true : !!el)).flat()
       };
 };
 

@@ -1,5 +1,6 @@
 import { React } from "src/const/react";
 
+let currentContainer: HTMLElement;
 /**
  * 가상 DOM을 실제 DOM으로 변환하여 지정된 컨테이너에 렌더링하는 함수
  *
@@ -7,9 +8,11 @@ import { React } from "src/const/react";
  * @param {HTMLElement} container - 렌더링 대상이 되는 실제 DOM 요소
  */
 const render = (node: IReactNode | string, container: HTMLElement) => {
-  // 0-1. node가 문자열이면 `TextNode`를 생성하여 `container`에 추가한다
-  if (typeof node === "string") {
-    container.appendChild(document.createTextNode(node));
+  currentContainer = container;
+
+  // 0-1. node가 문자열 or 숫자라면 `TextNode`를 생성하여 `container`에 추가한다
+  if (typeof node === "string" || typeof node === "number") {
+    container.appendChild(document.createTextNode(String(node)));
 
     return;
   }
@@ -60,4 +63,9 @@ const render = (node: IReactNode | string, container: HTMLElement) => {
   container.appendChild(element);
 };
 
-export { render };
+const rerender = () => {
+  currentContainer.innerHTML = ""; // 리셋
+  render("new node needed", currentContainer); // 새로운 children이 만들어져야 하는데 ...
+};
+
+export { render, rerender };

@@ -3,7 +3,12 @@ import typescriptLogo from "/images/typescript.svg";
 import viteLogo from "/images/vite.svg";
 import babelLogo from "/images/babel.svg";
 
+// hook
+import { useState } from "@react/hooks/useState";
+
 const Intro = () => {
+  const [clickCount, setClickCount] = useState(0);
+
   return (
     <div>
       <a href="https://www.typescriptlang.org/" target="_blank">
@@ -16,7 +21,8 @@ const Intro = () => {
         <img src={babelLogo} class="logo vanilla" alt="babel logo" />
       </a>
       <h1>TS + vite + Babel</h1>
-      <button onClick={() => alert("you clicked a button!")}>try clicking this!</button>
+      <button onClick={() => setClickCount((prev) => prev + 1)}>try clicking this!</button>
+      <div>current clickCount is {clickCount}</div>
     </div>
   );
 };
