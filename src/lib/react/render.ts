@@ -1,6 +1,8 @@
 import { React } from "src/const/react";
 
 let currentContainer: HTMLElement;
+let initialDOM: string | IReactNode | null = null;
+
 /**
  * 가상 DOM을 실제 DOM으로 변환하여 지정된 컨테이너에 렌더링하는 함수
  *
@@ -63,9 +65,19 @@ const render = (node: IReactNode | string, container: HTMLElement) => {
   container.appendChild(element);
 };
 
-const rerender = () => {
-  currentContainer.innerHTML = ""; // 리셋
-  render("new node needed", currentContainer); // 새로운 children이 만들어져야 하는데 ...
+const createRoot = (node: IReactNode | string, container: HTMLElement) => {
+  initialDOM = node;
+  render(node, container);
 };
 
-export { render, rerender };
+const rerender = () => {
+  console.log(initialDOM, currentContainer);
+
+  // render(/* 업데이트 된 state를 가진 새로운 node */, currentContainer); // 새로운 children이 만들어져야 하는데 ...
+  //
+  // A) 기존의 rootContainer DOM
+  // B) 현재 새로 업데이트된 state가 반영된 새로운 DOM obj
+  // ... A, B를 비교를 해야하는데 애초에 B를 어떻게 만들어야 하는지....
+};
+
+export { createRoot, render, rerender };

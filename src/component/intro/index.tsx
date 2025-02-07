@@ -6,6 +6,9 @@ import babelLogo from "/images/babel.svg";
 // hook
 import { useState } from "@react/hooks/useState";
 
+// component
+import Todo from "./todo";
+
 const Intro = () => {
   const [clickCount, setClickCount] = useState(0);
 
@@ -23,6 +26,8 @@ const Intro = () => {
       <h1>TS + vite + Babel</h1>
       <button onClick={() => setClickCount((prev) => prev + 1)}>try clicking this!</button>
       <div>current clickCount is {clickCount}</div>
+
+      <Todo />
     </div>
   );
 };

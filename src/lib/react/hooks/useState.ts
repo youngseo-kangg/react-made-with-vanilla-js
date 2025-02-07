@@ -1,4 +1,5 @@
 import { rerender } from "@react/render";
+import { deepEqual } from "src/lib/util";
 
 type SetState<T> = (newState: T | ((prevState: T) => T)) => void;
 const stateStore: unknown[] = []; // 여러 useState 호출을 위한 상태 저장 배열
@@ -14,7 +15,7 @@ function useState<T>(initialState: T): [T, SetState<T>] {
     const nextState =
       typeof newState === "function" ? (newState as (prev: T) => T)(prevState) : newState;
 
-    if (prevState !== nextState) {
+    if (!deepEqual(prevState, nextState)) {
       stateStore[currentIndex] = nextState;
       console.log(`state updated: ${stateStore[currentIndex]}`);
 
