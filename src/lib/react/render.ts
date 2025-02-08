@@ -1,8 +1,7 @@
 import { React } from "src/const/react";
 
-let currentContainer: HTMLElement;
-let initialDOM: string | IReactNode | null = null;
-
+let rootComponentFn: (() => IReactNode) | null = null; // 🔥 Root Component 저장용
+const currentContainer: HTMLElement | null = null;
 /**
  * 가상 DOM을 실제 DOM으로 변환하여 지정된 컨테이너에 렌더링하는 함수
  *
@@ -10,10 +9,12 @@ let initialDOM: string | IReactNode | null = null;
  * @param {HTMLElement} container - 렌더링 대상이 되는 실제 DOM 요소
  */
 const render = (node: IReactNode | string, container: HTMLElement) => {
-  currentContainer = container;
+  if (rootComponentFn === null) {
+    rootComponentFn = typeof node === "function" ? node : null; // 🔥 컴포넌트 함수 저장
+  }
 
-  // 0-1. node가 문자열 or 숫자라면 `TextNode`를 생성하여 `container`에 추가한다
   if (typeof node === "string" || typeof node === "number") {
+    // 0-1. node가 문자열 or 숫자라면 `TextNode`를 생성하여 `container`에 추가한다
     container.appendChild(document.createTextNode(String(node)));
 
     return;
@@ -65,19 +66,50 @@ const render = (node: IReactNode | string, container: HTMLElement) => {
   container.appendChild(element);
 };
 
-const createRoot = (node: IReactNode | string, container: HTMLElement) => {
-  initialDOM = node;
-  render(node, container);
+const createRoot = (node: () => IReactNode, container: HTMLElement) => {
+  rootComponentFn = node; // 🔥 최상위 컴포넌트 함수 저장
+  render(node(), container);
 };
 
+// !! 작동 X -> 새로운 state 반영 안됨 / diffing, reconciliation 로직 구현 필요
 const rerender = () => {
-  console.log(initialDOM, currentContainer);
+  if (!rootComponentFn) return;
 
-  // render(/* 업데이트 된 state를 가진 새로운 node */, currentContainer); // 새로운 children이 만들어져야 하는데 ...
-  //
-  // A) 기존의 rootContainer DOM
-  // B) 현재 새로 업데이트된 state가 반영된 새로운 DOM obj
-  // ... A, B를 비교를 해야하는데 애초에 B를 어떻게 만들어야 하는지....
+  console.log("🔄 리렌더링 시작");
+
+  // 1️⃣ 새로운 state가 반영된 가상 DOM 생성
+  // ? 새로운 state를 반영하려면...>???
+  let domObj: IReactNode | string = rootComponentFn();
+  console.log("📌 prevDomObj:", domObj);
+
+  // 2️⃣ newContainer를 만들기 위한 html태그 찾기
+  // 최종적으로 HTML 태그(`string`)가 나올 때까지 `name`을 재귀적으로 탐색
+  while (typeof domObj === "object" && typeof domObj.name === "function") {
+    domObj = domObj.name(domObj.props);
+    console.log("📌 name 탐색 중:", domObj);
+  }
+
+  // 3️⃣ 최종 `name`이 문자열인지 확인
+  if (typeof domObj !== "object" || typeof domObj.name !== "string") {
+    console.warn("🚨 유효한 HTML 태그가 아닙니다. 렌더링을 중단합니다.");
+    return;
+  }
+
+  const tagName = domObj.name as string;
+
+  // 4️⃣ HTML 태그 검증 → 커스텀 컴포넌트인지, 실제 태그인지 구분
+  const testElement = document.createElement(tagName);
+  if (testElement.toString() === "[object HTMLUnknownElement]") {
+    console.warn(`🚨 "${tagName}"는 유효한 HTML 태그가 아닙니다. 렌더링을 중단합니다.`);
+    return;
+  }
+
+  // 5️⃣ 새로운 container 요소 만들기
+  const newContainer = document.createElement(tagName);
+  console.log("📌 최종 HTML 요소:", newContainer);
+
+  // 6️⃣ 새로운 가상 DOM을 렌더링
+  render(domObj, newContainer);
 };
 
 export { createRoot, render, rerender };
