@@ -4,7 +4,7 @@ import viteLogo from "/images/vite.svg";
 import babelLogo from "/images/babel.svg";
 
 // hook
-import { useState } from "@react/hooks/useState";
+import { useState } from "@react/render";
 
 // component
 import Todo from "./todo";

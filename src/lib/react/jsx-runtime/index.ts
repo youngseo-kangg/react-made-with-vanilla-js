@@ -6,7 +6,7 @@ import { React } from "src/const/react";
 type ICreateElement = (
   type: ElementType,
   props: ElementPropsType,
-  ...children: ChildrenType
+  ...children: VirtualNode[]
 ) => IReactNode;
 
 const createElement: ICreateElement = (
@@ -17,26 +17,33 @@ const createElement: ICreateElement = (
   /**
    * 요소에 전달된 속성(프로퍼티)
    */
-  props: ElementPropsType,
+  props,
   /**
    * 요소의 자식 요소들
    */
-  ...children: ChildrenType
+  ...children
 ) => {
+  console.log(children);
+  const flatChildren = children.filter((el) => (typeof el === "number" ? true : !!el)).flat();
+
   if (type === React.Fragment) {
     return {
       name: React.Fragment,
       props,
-      children: children.filter((el) => (typeof el === "number" ? true : !!el)).flat()
+      children: flatChildren
     };
   }
 
-  return typeof type === "function"
-    ? { name: type.name, props, children: type({ ...props, children }) }
+  return typeof type === "function" // 함수형 컴포넌트인 경우
+    ? type({
+        type,
+        props,
+        children: flatChildren
+      })
     : {
         name: type,
         props,
-        children: children.filter((el) => (typeof el === "number" ? true : !!el)).flat()
+        children: flatChildren
       };
 };
 

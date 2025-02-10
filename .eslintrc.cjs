@@ -17,7 +17,8 @@ module.exports = {
           object: false
         }
       }
-    ]
+    ],
+    "@typescript-eslint/no-namespace": "off"
   },
   env: { browser: true, es2020: true },
   parserOptions: {
