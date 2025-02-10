@@ -25,3 +25,18 @@ export const deepEqual = (obj1: any, obj2: any): boolean => {
 
   return obj1 === obj2;
 };
+
+export const shallowEqual = (a: any, b: any): boolean => {
+  if (Object.is(a, b)) return true; // 참조가 같으면 true
+
+  if (typeof a !== "object" || a === null || typeof b !== "object" || b === null) {
+    return false; // 원시값이거나 하나라도 null이면 false
+  }
+
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+
+  if (keysA.length !== keysB.length) return false; // 키 개수가 다르면 false
+
+  return keysA.every((key) => b.hasOwnProperty(key) && Object.is(a[key], b[key]));
+};
