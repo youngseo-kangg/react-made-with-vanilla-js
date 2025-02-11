@@ -1,28 +1,8 @@
-import Item from "./item";
+// const
+import PIZZA_LIST from "src/const/pizza";
 
-const PIZZA_LIST: IPizza[] = [
-  {
-    name: "cheese",
-    ingredients: ["cheese", "tomato sauce"],
-    price: 12000,
-    size: "medium",
-    isVegetarian: true
-  },
-  { name: "bulgogi", ingredients: ["bulgogi", "cheese", "onion"], price: 15000, size: "large" },
-  {
-    name: "pepperoni",
-    ingredients: ["pepperoni", "cheese", "tomato sauce"],
-    price: 14000,
-    size: "large"
-  },
-  {
-    name: "veggie",
-    ingredients: ["mushroom", "olive", "onion", "bell pepper"],
-    price: 13000,
-    size: "medium",
-    isVegetarian: true
-  }
-];
+// component
+import Item from "./item";
 
 const List = () => {
   return (

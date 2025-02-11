@@ -1,27 +1,13 @@
 // style
 import "./style.css";
 
-// img
-import typescriptLogo from "/images/typescript.svg";
-import viteLogo from "/images/vite.svg";
-import babelLogo from "/images/babel.svg";
+import { render } from "@react/render";
 
 // componnt
 import App from "./App";
+import Intro from "./component/intro";
 
-document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
-  <div>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <a href="https://vite.dev/" target="_blank">
-      <img src="${viteLogo}" class="logo vanilla" alt="Vite logo" />
-    </a>
-    <a href="https://babeljs.io/" target="_blank">
-      <img src="${babelLogo}" class="logo vanilla" alt="babel logo" />
-    </a>
-    <h1>TS + vite + Babel</h1>
-  </div>
-`;
+const root: HTMLDivElement | null = document.querySelector<HTMLDivElement>("#app");
+if (root) render(Intro, root);
 
-console.log("this is the <App /> ----> ", JSON.stringify(<App />, null, 2));
+// console.log("this is the <App /> ----> ", JSON.stringify(<App />, null, 2));
