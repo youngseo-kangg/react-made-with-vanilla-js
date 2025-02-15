@@ -23,7 +23,7 @@ const createElement: ICreateElement = (
    */
   ...children
 ) => {
-  console.log(children);
+  // console.log(children);
   const flatChildren = children.filter((el) => (typeof el === "number" ? true : !!el)).flat();
 
   if (type === React.Fragment) {

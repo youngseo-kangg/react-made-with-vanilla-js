@@ -1,4 +1,35 @@
-import { isIReactNode } from "../util/typeCheck";
+import { isIReactNode } from "@util";
+import { SyntheticEvent } from "@react/syntheticEvent";
+
+const EventStore: Map<EventTarget, any> = new Map();
+
+/**
+ * 이벤트를 처리하고 SyntheticEvent로 감싸서 핸들러에 전달하는 함수.
+ *
+ * 1. 원본 `Event`를 `SyntheticEvent`로 래핑하여 핸들러에 전달한다.
+ *  - 바로 {...e, isPropagationStopped: false} 로는 X
+ * 2. 이벤트 대상(`e.target`)에서 시작하여 부모 요소로 버블링하며 핸들러를 실행한다.
+ * 3. `syntheticEvent.stopPropagation()`이 호출되면 버블링을 중단한다.
+ *
+ * @param {Event} e - 브라우저의 원본 이벤트 객체
+ */
+const handleEvent = (e: Event) => {
+  const syntheticEvent = new SyntheticEvent(e);
+  let currentEventTarget = e.target; // 이벤트 발생 요소 ... <button>try clicking this!</button>
+
+  while (currentEventTarget) {
+    const eventHandlers = EventStore.get(currentEventTarget);
+    if (eventHandlers && eventHandlers[e.type]) {
+      // 해당 요소의 이벤트 핸들러 실행
+      eventHandlers[e.type](syntheticEvent);
+
+      // stopPropagation()이 호출되면 이벤트 전파 중단
+      if (!syntheticEvent.isPropagationStopped) break;
+    }
+    // 부모 요소로 이동 (버블링)
+    currentEventTarget = (currentEventTarget as HTMLElement).parentElement;
+  }
+};
 
 export const createDOMElement = (node: VirtualNode) => {
   // 1. node가 null, undefined, boolean 이라면 ""(empty string) 리턴(= 렌더링 x)
@@ -34,7 +65,9 @@ export const createDOMElement = (node: VirtualNode) => {
           // a) 이벤트 리스너 속성 처리 (prefix 'on'제거 후 addEventListener)
           const modifiedEventName = key.slice(2).toLowerCase();
 
-          element.addEventListener(modifiedEventName, value as EventListener);
+          if (!EventStore.has(element)) EventStore.set(element, {});
+          EventStore.get(element)[modifiedEventName] = value;
+          element.addEventListener(modifiedEventName, handleEvent /* value as EventListener */);
         } else {
           // b) 이벤트 리스너 이외 속성 처리
           element.setAttribute(key, String(value));

@@ -1,5 +1,5 @@
-import { shallowEqual } from "../util";
-import { createDOMElement } from "./createDOMElement";
+import { shallowEqual } from "@util";
+import { createDOMElement } from "@react/createDOMElement";
 
 declare global {
   namespace JSX {
