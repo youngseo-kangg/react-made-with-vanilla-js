@@ -6,9 +6,9 @@ export default defineConfig(() => ({
   plugins: [tsconfigPath()],
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
-    resolve: {
-      find: "@react",
-      replacement: path.resolve(__dirname, "./src/lib/react")
+    alias: {
+      "@react": path.resolve(__dirname, "./src/lib/react"),
+      "@util": path.resolve(__dirname, "./src/lib/util") // "@util" 추가
     }
   },
   build: {

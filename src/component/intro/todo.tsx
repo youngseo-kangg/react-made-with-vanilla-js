@@ -16,11 +16,12 @@ const Todo = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+
           setTodoList((prev) => [...prev, { name: newTodo, checked: false }]); // 새로운 항목 추가
           setNewTodo(""); // 입력 필드 리셋
         }}
       >
-        <input value={newTodo} onChange={({ target: { value } }) => setNewTodo(value)} />
+        <input value={newTodo} onChange={(e) => setNewTodo(e.target.value)} />
       </form>
       {todoList.map((el, idx) => (
         <li key={idx}>

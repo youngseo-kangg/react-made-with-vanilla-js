@@ -19,7 +19,8 @@
     // path '@'' 설정 관련
     "baseUrl": ".",
     "paths": {
-      "@react/*": ["./src/lib/react/*"]
+      "@react/*": ["./src/lib/react/*"],
+      "@util": ["./src/lib/util/index.ts"]
     },
 
     /* Linting */
