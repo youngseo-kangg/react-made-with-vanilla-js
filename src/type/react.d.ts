@@ -3,6 +3,8 @@
  */
 type Component = <T extends { children: VirtualNode[] }>(props: T) => JSX.Element;
 
+type FC<T> = (props: T) => JSX.Element;
+
 /**
  * 유효한 요소 타입을 정의합니다.
  * 문자열(HTML 태그 이름), 함수형 컴포넌트 또는 React.Fragment이 될 수 있습니다.
@@ -26,6 +28,8 @@ interface IReactNode {
   /** 요소의 자식 요소들 (문자열 배열 또는 `IReactNode` 배열) */
   children?: VirtualNode[];
 }
+
+type setState<T> = (newState: T | ((prevState: T) => T)) => void;
 
 type BasicNode =
   // JSX에서 string, number는 TextNode로 렌더링됨

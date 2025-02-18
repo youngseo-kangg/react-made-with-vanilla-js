@@ -1,0 +1,31 @@
+.form-container {
+  width: 400px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+}
+
+.input-field,
+.radio-group,
+.checkbox-group {
+  margin-bottom: 20px;
+}
+
+input,
+button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}

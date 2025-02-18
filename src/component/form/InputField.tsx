@@ -1,0 +1,30 @@
+interface IInputFieldProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  type?: "text" | "password" | "email" | "number" | "tel" | "url"; // 확장 가능
+  placeholder?: string;
+}
+
+const InputField: FC<IInputFieldProps> = ({
+  label,
+  value,
+  onChange,
+  type = "text",
+  placeholder
+}) => {
+  return (
+    <div className="input-field">
+      <label>{label}</label>
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        required
+      />
+    </div>
+  );
+};
+
+export default InputField;

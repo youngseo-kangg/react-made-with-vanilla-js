@@ -51,6 +51,7 @@ const renderer = () => {
       if (!currentVNode) {
         // 최초 렌더링 시
         const element = createDOMElement(newVNode);
+        console.log(newVNode);
         if (element) container.appendChild(element);
       } else {
         // 기존 VDOM과 비교하여 변경된 부분만 업데이트
@@ -79,7 +80,7 @@ const renderer = () => {
     depsIndex++;
   };
 
-  const useState = <T>(initialState: T): [T, (newState: T | ((prevState: T) => T)) => void] => {
+  const useState = <T>(initialState: T): [T, setState<T>] => {
     const currentIndex = currentStateIndex; // 현재 useState 호출의 인덱스
 
     if (stateStore[currentIndex] === undefined) {
