@@ -1,4 +1,4 @@
 import { deepEqual, shallowEqual } from "./equalCheck";
-import { isIReactNode } from "./typeCheck";
+import { isIReactNode, isValidNode } from "./typeCheck";
 
-export { deepEqual, shallowEqual, isIReactNode };
+export { deepEqual, shallowEqual, isIReactNode, isValidNode };

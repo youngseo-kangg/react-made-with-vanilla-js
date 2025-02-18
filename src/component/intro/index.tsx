@@ -4,13 +4,17 @@ import viteLogo from "/images/vite.svg";
 import babelLogo from "/images/babel.svg";
 
 // hook
-import { useState } from "@react/render";
+import { useEffect, useState } from "@react/render";
 
 // component
 import Todo from "./todo";
 
 const Intro = () => {
   const [clickCount, setClickCount] = useState(0);
+
+  useEffect(() => {
+    console.log(`clickCount has been updated to ${clickCount}`);
+  }, [clickCount]);
 
   return (
     <div>
