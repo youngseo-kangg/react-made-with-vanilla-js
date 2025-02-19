@@ -68,12 +68,12 @@ const renderer = () => {
 
   const useEffect = (callback: () => void, deps?: unknown[]) => {
     const index = depsIndex;
-    const prevDeps = dependencies[index]; // 이전 deps 저장
-
+    const prevDeps = dependencies[index];
     const hasChanged = !prevDeps || !deps || deps.some((dep, i) => !shallowEqual(dep, prevDeps[i]));
 
     if (hasChanged) {
-      effectList.push(callback);
+      dependencies[index] = deps; // 새로운 deps 저장
+      effectList[index] = callback; // 이전 effect 덮어쓰기
       callback();
     }
 
@@ -82,7 +82,7 @@ const renderer = () => {
 
   const useState = <T>(initialState: T): [T, setState<T>] => {
     const currentIndex = currentStateIndex; // 현재 useState 호출의 인덱스
-
+    console.log("stateStore ---> ", stateStore);
     if (stateStore[currentIndex] === undefined) {
       stateStore[currentIndex] = initialState;
     }

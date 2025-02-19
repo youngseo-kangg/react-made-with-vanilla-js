@@ -36,7 +36,6 @@ function App() {
 
   const isFormValid = name && email.includes("@") && phone.match(/^\d{10,11}$/) && option;
 
-  console.log(`name ---> ${name}`);
   return (
     <div className="form-container">
       <h1>구글폼 클론</h1>
