@@ -6,7 +6,6 @@ interface ICheckboxGroupProps {
 }
 
 const CheckboxGroup: FC<ICheckboxGroupProps> = ({ label, options, selected, onChange }) => {
-  console.log(label, options, selected);
   const handleCheckboxChange = (option) => {
     if (selected.includes(option)) {
       onChange(selected.filter((item) => item !== option));

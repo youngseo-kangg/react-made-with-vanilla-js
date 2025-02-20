@@ -29,8 +29,11 @@ const renderer = () => {
   let currentStateIndex = 0; // useState가 여러 개일 때 각 state를 구분하는 인덱스
   const stateStore: unknown[] = []; // 여러 useState 호출을 위한 상태 저장 배열
   let depsIndex = 0;
+  let prevDepsIndex = 0;
   const dependencies: (unknown[] | undefined)[] = [];
   const effectList: (() => void)[] = [];
+
+  const cleanupList: Map<number, () => void> = new Map(); // cleanup 함수 저장 배열
 
   /**
    * 가상 DOM을 실제 DOM으로 변환하여 지정된 컨테이너에 렌더링하는 함수
@@ -51,7 +54,7 @@ const renderer = () => {
       if (!currentVNode) {
         // 최초 렌더링 시
         const element = createDOMElement(newVNode);
-        console.log(newVNode);
+        // console.log(newVNode);
         if (element) container.appendChild(element);
       } else {
         // 기존 VDOM과 비교하여 변경된 부분만 업데이트
@@ -66,15 +69,31 @@ const renderer = () => {
     }
   };
 
-  const useEffect = (callback: () => void, deps?: unknown[]) => {
-    const index = depsIndex;
-    const prevDeps = dependencies[index];
-    const hasChanged = !prevDeps || !deps || deps.some((dep, i) => !shallowEqual(dep, prevDeps[i]));
+  const useEffect = (callback: () => void | (() => void), deps?: unknown[]) => {
+    const index = depsIndex; // 현재 useEffect 호출의 고유한 인덱스
+    // console.log("index ---> ", index);
+
+    const oldDependencies = dependencies[index];
+    const hasChanged =
+      !oldDependencies ||
+      !deps ||
+      deps.some((val, idx) => !shallowEqual(val, oldDependencies[idx])); // 이전과 deps가 변경되었는지 확인
 
     if (hasChanged) {
-      dependencies[index] = deps; // 새로운 deps 저장
-      effectList[index] = callback; // 이전 effect 덮어쓰기
-      callback();
+      // 🔹 1. 이전 cleanup 실행
+      cleanupList.get(prevDepsIndex)?.();
+      cleanupList.delete(prevDepsIndex); // 실행 후 삭제
+
+      // 🔹 2. 새로운 deps 저장
+      dependencies[index] = deps;
+
+      // 🔹 3. callback 실행 및 cleanup 저장
+      const cleanup = callback();
+      if (typeof cleanup === "function") {
+        cleanupList.set(index, cleanup);
+      }
+      // console.log("cleanupList after ---> ", cleanupList);
+      prevDepsIndex = index;
     }
 
     depsIndex++;
@@ -82,7 +101,7 @@ const renderer = () => {
 
   const useState = <T>(initialState: T): [T, setState<T>] => {
     const currentIndex = currentStateIndex; // 현재 useState 호출의 인덱스
-    console.log("stateStore ---> ", stateStore);
+
     if (stateStore[currentIndex] === undefined) {
       stateStore[currentIndex] = initialState;
     }
@@ -95,7 +114,7 @@ const renderer = () => {
 
       if (!shallowEqual(stateStore[currentIndex], nextState)) {
         stateStore[currentIndex] = nextState;
-        console.log(`${currentIndex}th state updated to ---> `, nextState);
+        // console.log(`${currentIndex}th state updated to ---> `, nextState);
 
         if (currentContainer && currentComponent) {
           render(currentComponent, currentContainer);

@@ -34,7 +34,7 @@ const createElement: ICreateElement = (
   }
 
   return typeof type === "function" // 함수형 컴포넌트인 경우
-    ? type(Object.assign({}, type, props, { children: [...flatChildren] }))
+    ? type(Object.assign({}, props, { children: [...flatChildren] }))
     : {
         name: type,
         props,

@@ -6,8 +6,6 @@ interface IRadioGroupProps {
 }
 
 const RadioGroup: FC<IRadioGroupProps> = ({ label, options, selected, onChange }) => {
-  console.log(label, options, selected);
-
   return (
     <div className="radio-group">
       <label>{label}</label>

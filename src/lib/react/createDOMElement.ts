@@ -68,8 +68,16 @@ export const createDOMElement = (node: VirtualNode) => {
           if (!EventStore.has(element)) EventStore.set(element, {});
           EventStore.get(element)[modifiedEventName] = value;
           element.addEventListener(modifiedEventName, handleEvent /* value as EventListener */);
+        } else if (key === "style" && typeof value === "object") {
+          // b) inline style 처리
+          Object.entries(value as Record<string, string>).forEach(([cssKey, cssValue]) => {
+            element.style[cssKey as any] = cssValue;
+          });
+        } else if (key === "className") {
+          // c) className 처리
+          element.setAttribute("class", String(value));
         } else {
-          // b) 이벤트 리스너 이외 속성 처리
+          // d) 이외 처리
           element.setAttribute(key, String(value));
         }
       });

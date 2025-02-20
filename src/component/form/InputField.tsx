@@ -1,3 +1,5 @@
+import { SyntheticEvent } from "@react/syntheticEvent";
+
 interface IInputFieldProps {
   label: string;
   value: string;
@@ -13,13 +15,18 @@ const InputField: FC<IInputFieldProps> = ({
   type = "text",
   placeholder
 }) => {
+  // console.log("InputField props --->", { label, value, placeholder, onChange });
+
   return (
     <div className="input-field">
       <label>{label}</label>
       <input
         type={type}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          console.log("onChange triggered", e); // ✅ 실행 여부 확인
+          onChange(e.target.value);
+        }}
         placeholder={placeholder}
         required
       />
