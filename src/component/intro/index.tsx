@@ -13,8 +13,22 @@ const Intro = () => {
   const [clickCount, setClickCount] = useState(0);
 
   useEffect(() => {
-    console.log(`clickCount has been updated to ${clickCount}`);
+    console.log(`1 clickCount has been updated to ${clickCount}`);
+
+    return () => {
+      const prevClickCount = clickCount;
+      console.log(`1 🧹 Cleanup 실행: 이전 clickCount → ${prevClickCount}`);
+    };
   }, [clickCount]);
+
+  // useEffect(() => {
+  //   console.log(`2 clickCount has been updated to ${clickCount}`);
+
+  //   return () => {
+  //     const prevClickCount = clickCount;
+  //     console.log(`2 🧹 Cleanup 실행: 이전 clickCount → ${prevClickCount}`);
+  //   };
+  // }, [clickCount]);
 
   return (
     <div>

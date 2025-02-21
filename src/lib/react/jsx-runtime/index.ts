@@ -23,7 +23,6 @@ const createElement: ICreateElement = (
    */
   ...children
 ) => {
-  // console.log(children);
   const flatChildren = children.filter((el) => (typeof el === "number" ? true : !!el)).flat();
 
   if (type === React.Fragment) {
@@ -35,11 +34,7 @@ const createElement: ICreateElement = (
   }
 
   return typeof type === "function" // 함수형 컴포넌트인 경우
-    ? type({
-        type,
-        props,
-        children: flatChildren
-      })
+    ? type(Object.assign({}, props, { children: [...flatChildren] }))
     : {
         name: type,
         props,
