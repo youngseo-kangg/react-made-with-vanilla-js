@@ -15,23 +15,37 @@ function App() {
   const [checkboxes, setCheckboxes] = useState<string[]>([]);
   const [description, setDescription] = useState("");
 
-  const handleSubmit = () => {
-    const formData = {
-      name,
-      email,
-      phone,
-      option,
-      checkboxes,
-      description
-    };
-    console.log("Submitted Data:", JSON.stringify(formData, null, 2));
-    alert("폼이 성공적으로 제출되었습니다!");
-    setName("");
-    setEmail("");
-    setPhone("");
-    setOption("");
-    setCheckboxes([]);
-    setDescription("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    try {
+      // name, email, ... 업뎃 안된 state로 찍힘
+      console.log("name: ", name);
+      console.log("email: ", email);
+      console.log("phone: ", phone);
+      console.log("option: ", option);
+      console.log("checkboxes: ", checkboxes);
+      console.log("description: ", description);
+
+      const formData = {
+        name,
+        email,
+        phone,
+        option,
+        checkboxes,
+        description
+      };
+      console.log("Submitted Data:", JSON.stringify(formData, null, 2));
+      alert("폼이 성공적으로 제출되었습니다!");
+      setName("");
+      setEmail("");
+      setPhone("");
+      setOption("");
+      setCheckboxes([]);
+      setDescription("");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const isFormValid = name && email.includes("@") && phone.match(/^\d{10,11}$/) && option;

@@ -7,12 +7,14 @@ export class SyntheticEvent<T = Event> extends CustomEvent<T> {
    * 실제 브라우저 이벤트 객체
    */
   nativeEvent: Event;
+  target: EventTarget | null;
 
   constructor(event: Event) {
     super(event.type, event); // CustomEvent로 상속
 
     this.nativeEvent = event;
     this.isPropagationStopped = false;
+    this.target = event.target;
   }
 
   /**

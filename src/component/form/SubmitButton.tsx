@@ -1,6 +1,6 @@
 const SubmitButton = ({ onSubmit, disabled }) => {
   return (
-    <button type="button" onClick={onSubmit} disabled={disabled}>
+    <button type="button" onClick={(e) => onSubmit(e)} disabled={disabled}>
       제출하기
     </button>
   );

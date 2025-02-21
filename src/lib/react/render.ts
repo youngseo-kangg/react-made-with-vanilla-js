@@ -1,6 +1,5 @@
 import { shallowEqual } from "@util";
-import { createDOMElement } from "@react/createDOMElement";
-import { updateDomElement } from "@react/updateDOMElement";
+import { createDOMElement, updateDomElement } from "@react/handleDOMElement";
 
 declare global {
   namespace JSX {
@@ -32,7 +31,6 @@ const renderer = () => {
   let prevDepsIndex = 0;
   const dependencies: (unknown[] | undefined)[] = [];
   const effectList: (() => void)[] = [];
-
   const cleanupList: Map<number, () => void> = new Map(); // cleanup 함수 저장 배열
 
   /**
@@ -50,11 +48,11 @@ const renderer = () => {
     try {
       currentStateIndex = 0;
       const newVNode = typeof node === "function" ? node({ children: [] }) : node;
+      // console.log(newVNode);
 
       if (!currentVNode) {
         // 최초 렌더링 시
         const element = createDOMElement(newVNode);
-        // console.log(newVNode);
         if (element) container.appendChild(element);
       } else {
         // 기존 VDOM과 비교하여 변경된 부분만 업데이트

@@ -23,10 +23,7 @@ const InputField: FC<IInputFieldProps> = ({
       <input
         type={type}
         value={value}
-        onChange={(e) => {
-          console.log("onChange triggered", e); // ✅ 실행 여부 확인
-          onChange(e.target.value);
-        }}
+        onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         required
       />
